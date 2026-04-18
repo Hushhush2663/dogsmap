@@ -237,7 +237,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             flex-shrink: 0;
         }
 
@@ -252,6 +252,25 @@
         .sidebar-header .paw-icon {
             color: #C45C1A;
             font-size: 1.4rem;
+        }
+
+        /* ----- TELEGRAM-БЛОК (БЕЗ КНОПКИ) ----- */
+        .telegram-promo-top {
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 14px 16px;
+            border: 1px solid #E8E0D8;
+            margin-bottom: 16px;
+            flex-shrink: 0;
+        }
+
+        .telegram-promo-top p {
+            font-family: 'Jost', sans-serif;
+            font-weight: 400;
+            font-size: 0.9rem;
+            color: #1A1A1A;
+            line-height: 1.4;
+            margin: 0;
         }
 
         /* ВЕРТИКАЛЬНЫЙ СКРОЛЛ */
@@ -411,60 +430,20 @@
         }
 
         /* ----- ФУТЕР САЙДБАРА ----- */
-        .sidebar-footer {
-            margin-top: 16px;
-            flex-shrink: 0;
-        }
-
         .footer-note {
+            margin-top: 14px;
             text-align: left;
             font-family: 'Jost', sans-serif;
             font-weight: 300;
             font-size: 0.8rem;
             color: #555555;
             opacity: 0.8;
-            margin-bottom: 12px;
+            flex-shrink: 0;
         }
 
         .footer-note .accent {
             color: #C45C1A;
             font-weight: 500;
-        }
-
-        .telegram-promo {
-            background: #FFFFFF;
-            border-radius: 16px;
-            padding: 14px 16px;
-            border: 1px solid #E8E0D8;
-        }
-
-        .telegram-promo p {
-            font-family: 'Jost', sans-serif;
-            font-weight: 400;
-            font-size: 0.9rem;
-            color: #1A1A1A;
-            margin-bottom: 10px;
-            line-height: 1.4;
-        }
-
-        .telegram-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #C45C1A;
-            color: #FFFFFF;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 40px;
-            font-family: 'Jost', sans-serif;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
-        }
-
-        .telegram-link:hover {
-            background: #A84E16;
-            transform: scale(1.02);
         }
 
         /* ----- АДАПТИВ ----- */
@@ -544,19 +523,18 @@
                 <span class="paw-icon">🐕</span>
                 <h2>Все участники</h2>
             </div>
+            
+            <!-- TELEGRAM-БЛОК (БЕЗ КНОПКИ) -->
+            <div class="telegram-promo-top">
+                <p>📸 Отправьте фото вашей собаки через наш Telegram-бот — после проверки она появится на карте.</p>
+            </div>
+            
+            <!-- ПРОКРУТКА С КАРТОЧКАМИ -->
             <div class="city-grid" id="cityList"></div>
             
             <!-- ФУТЕР САЙДБАРА -->
-            <div class="sidebar-footer">
-                <div class="footer-note">
-                    <span class="accent">●</span> кликни на маркер или карточку
-                </div>
-                <div class="telegram-promo">
-                    <p>📸 Отправьте фото вашей собаки через наш Telegram-бот — после проверки она появится на карте.</p>
-                    <a href="#" class="telegram-link" onclick="alert('Ссылка на Telegram-бота'); return false;">
-                        <span>📱</span> Открыть бота
-                    </a>
-                </div>
+            <div class="footer-note">
+                <span class="accent">●</span> кликни на маркер или карточку
             </div>
         </div>
     </div>
@@ -627,7 +605,6 @@
             let offsetLon = 0, offsetLat = 0;
             if (total > 1) {
                 const angle = (index / total) * 2 * Math.PI;
-                // Увеличенный радиус для Москвы (8+ собак)
                 const radius = total >= 8 ? 0.12 : (total >= 3 ? 0.08 : 0.05);
                 offsetLon = Math.cos(angle) * radius;
                 offsetLat = Math.sin(angle) * radius;
@@ -645,7 +622,7 @@
             layers: [new ol.layer.Tile({ source: new ol.source.OSM() })],
             view: new ol.View({
                 center: ol.proj.fromLonLat([35.0, 45.0]),
-                zoom: 2.1, // ~11%
+                zoom: 2.1,
                 minZoom: 2,
                 maxZoom: 18
             }),
@@ -795,7 +772,6 @@
                 highlightCard(dog.id);
                 map.getView().animate({ center: coord, zoom: dog.zoom, duration: 700 });
                 
-                // Прокручиваем сайдбар до карточки этой собаки
                 const card = cardElements.get(dog.id);
                 if (card) {
                     card.scrollIntoView({ behavior: 'smooth', block: 'center' });
