@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Woof Wings • 37 собак на карте</title>
+    
+    <!-- Шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- OpenLayers CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v10.2.1/ol.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #F5EFE6;
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            color: #1A1A1A;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 1600px;
+            width: 100%;
+            background: #FFFFFF;
+            border-radius: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            padding: 28px 32px 32px 32px;
+        }
+
+        /* ----- ШАПКА ----- */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #C45C1A;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-img {
+            height: 48px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-family: 'Dela Gothic One', cursive;
+            font-size: 2rem;
+            color: #C45C1A;
+            letter-spacing: 2px;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 32px;
+        }
+
+        .stat-item {
+            text-align: right;
+        }
+
+        .stat-number {
+            font-family: 'Dela Gothic One', cursive;
+            font-size: 2rem;
+            color: #C45C1A;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-family: 'Jost', sans-serif;
+            font-weight: 400;
+            font-size: 0.9rem;
+            color: #555555;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ----- ЗАГОЛОВОК ----- */
+        h1 {
+            font-family: 'Dela Gothic One', cursive;
+            font-size: 2.4rem;
+            color: #1A1A1A;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            font-size: 1.1rem;
+            color: #555555;
+            margin-bottom: 28px;
+        }
+
+        .subtitle .accent {
+            color: #C45C1A;
+            font-weight: 500;
+        }
+
+        /* ----- ОСНОВНОЙ БЛОК ----- */
+        .dashboard {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        /* ----- КАРТА ----- */
+        .map-wrapper {
+            flex: 3;
+            min-width: 400px;
+            height: 650px;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid #E8E0D8;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            position: relative;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+            background: #F5EFE6;
+        }
+
+        /* ----- ИНДИКАТОР МАСШТАБА ----- */
+        .scale-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(4px);
+            border: 1px solid #E8E0D8;
+            border-radius: 40px;
+            padding: 10px 18px;
+            font-family: 'Jost', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            color: #1A1A1A;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .scale-value {
+            color: #C45C1A;
+            font-weight: 600;
+            min-width: 55px;
+            text-align: center;
+        }
+
+        .scale-bar {
+            width: 60px;
+            height: 4px;
+            background: #E8E0D8;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .scale-fill {
+            height: 100%;
+            background: #C45C1A;
+            border-radius: 2px;
+            transition: width 0.1s ease;
+        }
+
+        /* ----- КНОПКА ВЕСЬ МИР ----- */
+        .world-reset-btn {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: #FFFFFF;
+            border: 2px solid #C45C1A;
+            border-radius: 40px;
+            padding: 12px 20px;
+            font-family: 'Jost', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            color: #C45C1A;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(196, 92, 26, 0.15);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(4px);
+        }
+
+        .world-reset-btn:hover {
+            background: #C45C1A;
+            color: #FFFFFF;
+            box-shadow: 0 6px 16px rgba(196, 92, 26, 0.3);
+            transform: scale(1.02);
+        }
+
+        .world-reset-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* ----- САЙДБАР ----- */
+        .sidebar {
+            flex: 1;
+            min-width: 260px;
+            max-width: 300px;
+            background: #F5EFE6;
+            border-radius: 24px;
+            padding: 24px 16px;
+            height: 650px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-header h2 {
+            font-family: 'Dela Gothic One', cursive;
+            font-size: 1.2rem;
+            color: #1A1A1A;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar-header .paw-icon {
+            color: #C45C1A;
+            font-size: 1.4rem;
+        }
+
+        /* ВЕРТИКАЛЬНЫЙ СКРОЛЛ */
+        .city-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-right: 6px;
+            flex: 1;
+        }
+
+        /* ----- КАРТОЧКА ----- */
+        .city-card {
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 14px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: 1px solid #E8E0D8;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            flex-shrink: 0;
+        }
+
+        .city-card:hover {
+            transform: translateY(-3px);
+            border-color: #C45C1A;
+            box-shadow: 0 8px 20px rgba(196, 92, 26, 0.08);
+        }
+
+        .city-card.active {
+            border: 2px solid #C45C1A;
+            background: #FFFBF8;
+            box-shadow: 0 4px 16px rgba(196, 92, 26, 0.12);
+        }
+
+        .city-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .city-flag {
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .city-name {
+            font-family: 'Dela Gothic One', cursive;
+            font-size: 0.95rem;
+            color: #1A1A1A;
+            text-transform: uppercase;
+            letter-spacing: -0.3px;
+        }
+
+        .dog-photo {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 14px;
+            margin-bottom: 10px;
+            border: 1px solid #E8E0D8;
+            background: #F5EFE6;
+        }
+
+        .dog-name {
+            font-family: 'Jost', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            color: #1A1A1A;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dog-name::before {
+            content: "🐾";
+            font-size: 0.9rem;
+            color: #C45C1A;
+        }
+
+        .country-label {
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            font-size: 0.8rem;
+            color: #555555;
+            margin-top: 4px;
+        }
+
+        /* ----- ПОПАП ----- */
+        .ol-popup {
+            position: absolute;
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 16px 20px;
+            color: #1A1A1A;
+            border: 1px solid #C45C1A;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            min-width: 220px;
+            pointer-events: none;
+            font-family: 'Jost', sans-serif;
+        }
+
+        .ol-popup:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid #C45C1A;
+        }
+
+        .popup-title {
+            font-family: 'Dela Gothic One', cursive;
+            font-size: 1rem;
+            color: #C45C1A;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .popup-dog {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .popup-dog img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #C45C1A;
+        }
+
+        .popup-dog span {
+            font-weight: 500;
+            color: #1A1A1A;
+        }
+
+        /* ----- СКРОЛЛБАР ----- */
+        .city-grid::-webkit-scrollbar {
+            width: 4px;
+        }
+        .city-grid::-webkit-scrollbar-track {
+            background: #E8E0D8;
+            border-radius: 10px;
+        }
+        .city-grid::-webkit-scrollbar-thumb {
+            background: #C45C1A;
+            border-radius: 10px;
+        }
+
+        /* ----- ФУТЕР САЙДБАРА ----- */
+        .sidebar-footer {
+            margin-top: 16px;
+            flex-shrink: 0;
+        }
+
+        .footer-note {
+            text-align: left;
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            font-size: 0.8rem;
+            color: #555555;
+            opacity: 0.8;
+            margin-bottom: 12px;
+        }
+
+        .footer-note .accent {
+            color: #C45C1A;
+            font-weight: 500;
+        }
+
+        .telegram-promo {
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 14px 16px;
+            border: 1px solid #E8E0D8;
+        }
+
+        .telegram-promo p {
+            font-family: 'Jost', sans-serif;
+            font-weight: 400;
+            font-size: 0.9rem;
+            color: #1A1A1A;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .telegram-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #C45C1A;
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-family: 'Jost', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .telegram-link:hover {
+            background: #A84E16;
+            transform: scale(1.02);
+        }
+
+        /* ----- АДАПТИВ ----- */
+        @media (max-width: 900px) {
+            body { padding: 12px; }
+            .container { padding: 20px 16px; }
+            h1 { font-size: 1.8rem; }
+            .header { flex-direction: column; align-items: flex-start; gap: 16px; }
+            .header-stats { gap: 24px; }
+            .dashboard { flex-direction: column; }
+            .map-wrapper, .sidebar { 
+                height: 500px; 
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stat-number { font-size: 1.5rem; }
+            .stat-label { font-size: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- ШАПКА С ЛОГО -->
+    <div class="header">
+        <div class="logo">
+            <img class="logo-img" src="https://i.ibb.co/ds7TfyXK/LOGO-WW-Color-Dark-BG.png" alt="Woof Wings Logo">
+            <span class="logo-text">WOOF WINGS</span>
+        </div>
+        <div class="header-stats">
+            <div class="stat-item">
+                <div class="stat-number">37</div>
+                <div class="stat-label">собак</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">29</div>
+                <div class="stat-label">городов</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">18</div>
+                <div class="stat-label">стран</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ЗАГОЛОВОК -->
+    <h1>Собаки со всего мира</h1>
+    <div class="subtitle">
+        Карта любимых собак участников нашего нетворкинга. Каждый маркер — это пушистый друг и город, где он живёт.
+    </div>
+
+    <div class="dashboard">
+        <!-- КАРТА -->
+        <div class="map-wrapper">
+            <div id="map"></div>
+            
+            <!-- ИНДИКАТОР МАСШТАБА -->
+            <div class="scale-indicator" id="scaleIndicator">
+                <span>🔍</span>
+                <span class="scale-value" id="scaleValue">11%</span>
+                <div class="scale-bar">
+                    <div class="scale-fill" id="scaleFill" style="width: 11%"></div>
+                </div>
+            </div>
+            
+            <!-- КНОПКА ВЕСЬ МИР -->
+            <button class="world-reset-btn" id="resetWorldBtn">
+                <span>🌍</span> Весь мир
+            </button>
+        </div>
+
+        <!-- САЙДБАР -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <span class="paw-icon">🐕</span>
+                <h2>Все участники</h2>
+            </div>
+            <div class="city-grid" id="cityList"></div>
+            
+            <!-- ФУТЕР САЙДБАРА -->
+            <div class="sidebar-footer">
+                <div class="footer-note">
+                    <span class="accent">●</span> кликни на маркер или карточку
+                </div>
+                <div class="telegram-promo">
+                    <p>📸 Отправьте фото вашей собаки через наш Telegram-бот — после проверки она появится на карте.</p>
+                    <a href="#" class="telegram-link" onclick="alert('Ссылка на Telegram-бота'); return false;">
+                        <span>📱</span> Открыть бота
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/ol@v10.2.1/dist/ol.js"></script>
+
+<script>
+    (function() {
+        // -------------------------------------------------------------
+        // ВСЕ 37 СОБАК
+        // -------------------------------------------------------------
+        const dogs = [
+            { id: 1, name: 'Айза', city: 'Воронеж', country: 'Россия', flag: '🇷🇺', coords: [39.2003, 51.6720], zoom: 11, image: 'https://i.ibb.co/B5vWsp2g/image.jpg' },
+            { id: 2, name: 'Арчи', city: 'Москва', country: 'Россия', flag: '🇷🇺', coords: [37.6173, 55.7558], zoom: 10, image: 'https://i.ibb.co/Psrnrw1F/image.jpg' },
+            { id: 3, name: 'Буся', city: 'Москва', country: 'Россия', flag: '🇷🇺', coords: [37.6173, 55.7558], zoom: 10, image: 'https://i.ibb.co/LXyH2d7Z/image.jpg' },
+            { id: 4, name: 'Вуди', city: 'Варшава', country: 'Польша', flag: '🇵🇱', coords: [21.0122, 52.2297], zoom: 10, image: 'https://i.ibb.co/NnrbDVxm/image.jpg' },
+            { id: 5, name: 'Гого', city: 'Тбилиси', country: 'Грузия', flag: '🇬🇪', coords: [44.8271, 41.7151], zoom: 11, image: 'https://i.ibb.co/YTZP2gYH/image.jpg' },
+            { id: 6, name: 'Джой', city: 'Минск', country: 'Беларусь', flag: '🇧🇾', coords: [27.5618, 53.9045], zoom: 11, image: 'https://i.ibb.co/Wp49PhWw/image.jpg' },
+            { id: 7, name: 'Дрейдел', city: 'Тель-Авив', country: 'Израиль', flag: '🇮🇱', coords: [34.7818, 32.0853], zoom: 11, image: 'https://i.ibb.co/3YRKGdFL/image.jpg' },
+            { id: 8, name: 'Жан Пери', city: 'Псков', country: 'Россия', flag: '🇷🇺', coords: [28.3496, 57.8193], zoom: 11, image: 'https://i.ibb.co/DgYywfyx/image.jpg' },
+            { id: 9, name: 'Жора', city: 'Москва', country: 'Россия', flag: '🇷🇺', coords: [37.6173, 55.7558], zoom: 10, image: 'https://i.ibb.co/99YxmKyd/6.jpg' },
+            { id: 10, name: 'Кензо и Рей', city: 'Будапешт', country: 'Венгрия', flag: '🇭🇺', coords: [19.0402, 47.4979], zoom: 11, image: 'https://i.ibb.co/prPr9mZC/image.jpg' },
+            { id: 11, name: 'Керем', city: 'Барилоче', country: 'Аргентина', flag: '🇦🇷', coords: [-71.3167, -41.1333], zoom: 8, image: 'https://i.ibb.co/rGgywzyb/image.jpg' },
+            { id: 12, name: 'Кэрри', city: 'Альметьевск', country: 'Россия', flag: '🇷🇺', coords: [52.3167, 54.9000], zoom: 11, image: 'https://i.ibb.co/k2KmnXDS/image.jpg' },
+            { id: 13, name: 'Лея', city: 'Лимассол', country: 'Кипр', flag: '🇨🇾', coords: [33.0226, 34.7071], zoom: 11, image: 'https://i.ibb.co/Z63qzPGV/image.jpg' },
+            { id: 14, name: 'Либ', city: 'Барилоче', country: 'Аргентина', flag: '🇦🇷', coords: [-71.3167, -41.1333], zoom: 8, image: 'https://i.ibb.co/NnYfN47z/image.jpg' },
+            { id: 15, name: 'Лисичка', city: 'Москва', country: 'Россия', flag: '🇷🇺', coords: [37.6173, 55.7558], zoom: 10, image: 'https://i.ibb.co/7xRVSswC/image.jpg' },
+            { id: 16, name: 'Марло', city: 'Лион', country: 'Франция', flag: '🇫🇷', coords: [4.8357, 45.7640], zoom: 11, image: 'https://i.ibb.co/vvHxk4PF/image.jpg' },
+            { id: 17, name: 'Микаса', city: 'Москва', country: 'Россия', flag: '🇷🇺', coords: [37.6173, 55.7558], zoom: 10, image: 'https://i.ibb.co/DHTffLP7/image.jpg' },
+            { id: 18, name: 'Мия', city: 'Краснодар', country: 'Россия', flag: '🇷🇺', coords: [38.9769, 45.0355], zoom: 11, image: 'https://i.ibb.co/tMw7MMBD/image.jpg' },
+            { id: 19, name: 'Моняша', city: 'Саратов', country: 'Россия', flag: '🇷🇺', coords: [46.0333, 51.5333], zoom: 11, image: 'https://i.ibb.co/zVfVFHJg/image.jpg' },
+            { id: 20, name: 'Пипа', city: 'Москва', country: 'Россия', flag: '🇷🇺', coords: [37.6173, 55.7558], zoom: 10, image: 'https://i.ibb.co/SXnnhxkV/image.jpg' },
+            { id: 21, name: 'Рафаэль', city: 'Минск', country: 'Беларусь', flag: '🇧🇾', coords: [27.5618, 53.9045], zoom: 11, image: 'https://i.ibb.co/tpWc1sbn/image.jpg' },
+            { id: 22, name: 'Риччи', city: 'Лос-Анджелес', country: 'США', flag: '🇺🇸', coords: [-118.2437, 34.0522], zoom: 10, image: 'https://i.ibb.co/FbFv5hmt/image.jpg' },
+            { id: 23, name: 'Рокки', city: 'Варшава', country: 'Польша', flag: '🇵🇱', coords: [21.0122, 52.2297], zoom: 10, image: 'https://i.ibb.co/yc7zYwNy/image.jpg' },
+            { id: 24, name: 'Руби', city: 'Минск', country: 'Беларусь', flag: '🇧🇾', coords: [27.5618, 53.9045], zoom: 11, image: 'https://i.ibb.co/hxG37jJf/image.jpg' },
+            { id: 25, name: 'Стивен', city: 'Суботица', country: 'Сербия', flag: '🇷🇸', coords: [19.6667, 46.1000], zoom: 11, image: 'https://i.ibb.co/kTqTsvx/image.jpg' },
+            { id: 26, name: 'Тамара', city: 'Тбилиси', country: 'Грузия', flag: '🇬🇪', coords: [44.8271, 41.7151], zoom: 11, image: 'https://i.ibb.co/Nd21KXnq/image.jpg' },
+            { id: 27, name: 'Трой', city: 'Ришон-ле-Цион', country: 'Израиль', flag: '🇮🇱', coords: [34.8000, 31.9667], zoom: 12, image: 'https://i.ibb.co/F42phNcy/image.jpg' },
+            { id: 28, name: 'Чарли, Джой, Джуно и Ланна', city: 'Самуи', country: 'Таиланд', flag: '🇹🇭', coords: [100.0136, 9.5120], zoom: 10, image: 'https://i.ibb.co/s9VcMD9p/image.jpg' },
+            { id: 29, name: 'Шелли', city: 'Москва', country: 'Россия', flag: '🇷🇺', coords: [37.6173, 55.7558], zoom: 10, image: 'https://i.ibb.co/v66RjCd4/image.jpg' },
+            { id: 30, name: 'Эльф', city: 'Москва', country: 'Россия', flag: '🇷🇺', coords: [37.6173, 55.7558], zoom: 10, image: 'https://i.ibb.co/Xr1GgmDf/image.jpg' },
+            { id: 31, name: 'Эшли', city: 'Афины', country: 'Греция', flag: '🇬🇷', coords: [23.7275, 37.9838], zoom: 11, image: 'https://i.ibb.co/bg0JpKc4/image.jpg' },
+            { id: 32, name: 'Эшли', city: 'Буэнос-Айрес', country: 'Аргентина', flag: '🇦🇷', coords: [-58.3816, -34.6037], zoom: 11, image: 'https://i.ibb.co/bg0JpKc4/image.jpg' },
+            { id: 33, name: 'Эшли', city: 'Пхукет', country: 'Таиланд', flag: '🇹🇭', coords: [98.3381, 7.8804], zoom: 11, image: 'https://i.ibb.co/m5G70yqC/image.jpg' },
+            { id: 34, name: 'Эшли', city: 'Тель-Авив', country: 'Израиль', flag: '🇮🇱', coords: [34.7818, 32.0853], zoom: 11, image: 'https://i.ibb.co/wh7XSJxc/image.jpg' },
+            { id: 35, name: 'Magic', city: 'Ницца', country: 'Франция', flag: '🇫🇷', coords: [7.2661, 43.7102], zoom: 11, image: 'https://i.ibb.co/vy2QYts/Magic.jpg' },
+            { id: 36, name: 'Solly', city: 'Тбилиси', country: 'Грузия', flag: '🇬🇪', coords: [44.8271, 41.7151], zoom: 11, image: 'https://i.ibb.co/W4kkK5sb/Solly.jpg' },
+            { id: 37, name: 'Levi', city: 'Нью-Йорк', country: 'США', flag: '🇺🇸', coords: [-74.0060, 40.7128], zoom: 11, image: 'https://i.ibb.co/BHtHYg4j/2.jpg' }
+        ];
+
+        // ---------- РАСШИРЕННОЕ СМЕЩЕНИЕ МАРКЕРОВ ----------
+        const coordMap = new Map();
+        dogs.forEach(dog => {
+            const key = dog.coords.join(',');
+            if (!coordMap.has(key)) coordMap.set(key, []);
+            coordMap.get(key).push(dog);
+        });
+
+        const offsetCoords = [];
+        dogs.forEach(dog => {
+            const key = dog.coords.join(',');
+            const group = coordMap.get(key);
+            const index = group.findIndex(d => d.id === dog.id);
+            const total = group.length;
+            
+            let offsetLon = 0, offsetLat = 0;
+            if (total > 1) {
+                const angle = (index / total) * 2 * Math.PI;
+                // Увеличенный радиус для Москвы (8+ собак)
+                const radius = total >= 8 ? 0.12 : (total >= 3 ? 0.08 : 0.05);
+                offsetLon = Math.cos(angle) * radius;
+                offsetLat = Math.sin(angle) * radius;
+            }
+            
+            offsetCoords.push({
+                ...dog,
+                displayCoords: [dog.coords[0] + offsetLon, dog.coords[1] + offsetLat]
+            });
+        });
+
+        // ---------- КАРТА ----------
+        const map = new ol.Map({
+            target: 'map',
+            layers: [new ol.layer.Tile({ source: new ol.source.OSM() })],
+            view: new ol.View({
+                center: ol.proj.fromLonLat([35.0, 45.0]),
+                zoom: 2.1, // ~11%
+                minZoom: 2,
+                maxZoom: 18
+            }),
+            controls: ol.control.defaults.defaults({ attributionOptions: { collapsible: true } })
+        });
+
+        // ---------- ИНДИКАТОР МАСШТАБА ----------
+        const scaleValue = document.getElementById('scaleValue');
+        const scaleFill = document.getElementById('scaleFill');
+        
+        function updateScaleIndicator() {
+            const zoom = map.getView().getZoom();
+            const minZoom = 2;
+            const maxZoom = 18;
+            const percent = Math.round(((zoom - minZoom) / (maxZoom - minZoom)) * 89 + 11);
+            scaleValue.textContent = percent + '%';
+            scaleFill.style.width = percent + '%';
+        }
+        
+        map.getView().on('change:resolution', updateScaleIndicator);
+        map.getView().on('change:zoom', updateScaleIndicator);
+        updateScaleIndicator();
+
+        // ---------- КНОПКА ВЕСЬ МИР (11%) ----------
+        document.getElementById('resetWorldBtn').addEventListener('click', function() {
+            map.getView().animate({
+                center: ol.proj.fromLonLat([35.0, 45.0]),
+                zoom: 2.1,
+                duration: 800
+            });
+            hidePopup();
+        });
+
+        // ---------- POPUP ----------
+        const popupElement = document.createElement('div');
+        popupElement.className = 'ol-popup';
+        const popup = new ol.Overlay({ element: popupElement, positioning: 'bottom-center', offset: [0, -15], stopEvent: false });
+        map.addOverlay(popup);
+
+        function showPopup(coord, dog) {
+            popupElement.innerHTML = `
+                <div class="popup-title">${dog.flag} ${dog.city}, ${dog.country}</div>
+                <div class="popup-dog">
+                    <img src="${dog.image}" alt="${dog.name}" onerror="this.src='https://i.ibb.co/B5vWsp2g/image.jpg'">
+                    <span>${dog.name}</span>
+                </div>
+            `;
+            popup.setPosition(coord);
+        }
+
+        function hidePopup() { popup.setPosition(undefined); }
+
+        // ---------- СТИЛЬ МАРКЕРОВ ----------
+        function createDogIconStyle(dog) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const size = 56;
+            canvas.width = size;
+            canvas.height = size;
+            
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size/2 - 3, 0, 2 * Math.PI);
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fill();
+            ctx.strokeStyle = '#C45C1A';
+            ctx.lineWidth = 4;
+            ctx.stroke();
+            
+            const img = new Image();
+            img.crossOrigin = 'Anonymous';
+            img.src = dog.image;
+            
+            const style = new ol.style.Style({
+                image: new ol.style.Icon({ img: canvas, imgSize: [size, size], anchor: [0.5, 1], anchorXUnits: 'fraction', anchorYUnits: 'fraction' })
+            });
+            
+            img.onload = () => {
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(size/2, size/2, size/2 - 5, 0, 2 * Math.PI);
+                ctx.clip();
+                ctx.drawImage(img, 0, 0, size, size);
+                ctx.restore();
+                ctx.beginPath();
+                ctx.arc(size/2, size/2, size/2 - 3, 0, 2 * Math.PI);
+                ctx.strokeStyle = '#C45C1A';
+                ctx.lineWidth = 4;
+                ctx.stroke();
+                style.getImage().setImg(canvas);
+                vectorLayer.changed();
+            };
+            
+            img.onerror = () => { img.src = 'https://i.ibb.co/B5vWsp2g/image.jpg'; };
+            return style;
+        }
+
+        // ---------- ВЕКТОРНЫЙ СЛОЙ ----------
+        const features = [];
+        offsetCoords.forEach(dog => {
+            const feature = new ol.Feature({
+                geometry: new ol.geom.Point(ol.proj.fromLonLat(dog.displayCoords)),
+                dogData: dog
+            });
+            feature.setStyle(createDogIconStyle(dog));
+            features.push(feature);
+        });
+
+        const vectorSource = new ol.source.Vector({ features });
+        const vectorLayer = new ol.layer.Vector({ source: vectorSource, zIndex: 10 });
+        map.addLayer(vectorLayer);
+
+        // ---------- КАРТОЧКИ ----------
+        const cityListDiv = document.getElementById('cityList');
+        const cardElements = new Map();
+        
+        dogs.forEach(dog => {
+            const card = document.createElement('div');
+            card.className = 'city-card';
+            card.setAttribute('data-dog-id', dog.id);
+            card.innerHTML = `
+                <div class="city-header">
+                    <span class="city-flag">${dog.flag}</span>
+                    <span class="city-name">${dog.city}</span>
+                </div>
+                <img class="dog-photo" src="${dog.image}" alt="${dog.name}" loading="lazy" onerror="this.src='https://i.ibb.co/B5vWsp2g/image.jpg'">
+                <div class="dog-name">${dog.name}</div>
+                <div class="country-label">${dog.country}</div>
+            `;
+            card.addEventListener('click', () => {
+                const dogWithOffset = offsetCoords.find(d => d.id === dog.id);
+                const coord = ol.proj.fromLonLat(dogWithOffset.displayCoords);
+                map.getView().animate({ center: coord, zoom: dog.zoom, duration: 700 });
+                showPopup(coord, dog);
+                highlightCard(dog.id);
+            });
+            cityListDiv.appendChild(card);
+            cardElements.set(dog.id, card);
+        });
+
+        // ---------- КЛИКИ ПО МАРКЕРАМ (с прокруткой к карточке) ----------
+        map.on('click', function(evt) {
+            const feature = map.forEachFeatureAtPixel(evt.pixel, f => f);
+            if (feature) {
+                const dog = feature.get('dogData');
+                const coord = feature.getGeometry().getCoordinates();
+                showPopup(coord, dog);
+                highlightCard(dog.id);
+                map.getView().animate({ center: coord, zoom: dog.zoom, duration: 700 });
+                
+                // Прокручиваем сайдбар до карточки этой собаки
+                const card = cardElements.get(dog.id);
+                if (card) {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            } else { 
+                hidePopup(); 
+            }
+        });
+
+        map.on('pointermove', function(evt) {
+            map.getTargetElement().style.cursor = map.hasFeatureAtPixel(evt.pixel) ? 'pointer' : '';
+        });
+
+        function highlightCard(dogId) {
+            document.querySelectorAll('.city-card').forEach(c => c.classList.remove('active'));
+            const activeCard = document.querySelector(`[data-dog-id="${dogId}"]`);
+            if (activeCard) { 
+                activeCard.classList.add('active'); 
+            }
+        }
+
+        setTimeout(() => highlightCard(1), 200);
+        map.on('movestart', hidePopup);
+        
+        console.log('Карта загружена! Всего собак:', dogs.length);
+    })();
+</script>
+
+</body>
+</html>
