@@ -482,73 +482,175 @@
         /* МОБИЛЬНЫЙ (< 768px) */
         @media (max-width: 767px) {
             body { padding: 8px; }
-            .container { padding: 14px; border-radius: 20px; }
+            .container { padding: 12px; border-radius: 20px; }
             
             /* Шапка */
             .header { flex-direction: column; align-items: flex-start; gap: 12px; }
-            .logo-text { font-size: 1.4rem; }
-            .logo-img { height: 32px; }
-            .header-stats { width: 100%; justify-content: space-around; gap: 12px; }
-            .stat-number { font-size: 1.4rem; }
-            .stat-label { font-size: 0.7rem; }
+            .logo-text { font-size: 1.3rem; }
+            .logo-img { height: 30px; }
+            .header-stats { width: 100%; justify-content: space-around; gap: 10px; }
+            .stat-number { font-size: 1.3rem; }
+            .stat-label { font-size: 0.65rem; }
             
             /* Заголовок */
-            h1 { font-size: 1.5rem; }
-            .subtitle { font-size: 0.9rem; margin-bottom: 16px; }
+            h1 { font-size: 1.4rem; margin-bottom: 4px; }
+            .subtitle { font-size: 0.85rem; margin-bottom: 14px; }
             
             /* Карта */
-            .dashboard { flex-direction: column; gap: 16px; }
-            .map-wrapper { height: 350px; }
+            .dashboard { flex-direction: column; gap: 12px; }
+            .map-wrapper { height: 320px; min-width: auto; }
             
             /* Индикатор масштаба и кнопка */
-            .scale-indicator { padding: 6px 10px; font-size: 0.8rem; }
-            .scale-value { min-width: 40px; }
-            .scale-bar { width: 40px; }
-            .world-reset-btn { padding: 6px 12px; font-size: 0.8rem; }
+            .scale-indicator { padding: 5px 8px; font-size: 0.75rem; }
+            .scale-value { min-width: 35px; }
+            .scale-bar { width: 35px; }
+            .world-reset-btn { padding: 5px 10px; font-size: 0.75rem; }
             
             /* Сайдбар */
             .sidebar {
-                max-height: 400px;
+                max-height: 380px;
                 min-width: auto;
-                padding: 14px 10px;
+                padding: 12px 8px;
             }
             
-            .sidebar-header h2 { font-size: 1.1rem; }
+            .sidebar-header {
+                margin-bottom: 10px;
+            }
             
-            .telegram-promo-top { padding: 10px 12px; }
-            .telegram-promo-top p { font-size: 0.8rem; }
+            .sidebar-header h2 { 
+                font-size: 1rem; 
+            }
             
-            /* Сетка карточек — 2 колонки */
+            .sidebar-header .paw-icon {
+                font-size: 1.1rem;
+            }
+            
+            /* TELEGRAM-БЛОК СКРЫТ НА МОБИЛЬНЫХ */
+            .telegram-promo-top {
+                display: none;
+            }
+            
+            /* Сетка карточек — 2 колонки, меньший размер */
             .city-grid {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
+                gap: 8px;
             }
             
-            .city-card { padding: 10px; }
-            .city-flag { font-size: 1.1rem; }
-            .city-name { font-size: 0.8rem; }
-            .dog-name { font-size: 0.85rem; }
-            .country-label { font-size: 0.7rem; }
+            /* УМЕНЬШЕННЫЕ КАРТОЧКИ */
+            .city-card { 
+                padding: 8px; 
+                border-radius: 12px;
+            }
             
-            .footer-note { font-size: 0.7rem; }
+            .city-header {
+                margin-bottom: 6px;
+                gap: 4px;
+            }
+            
+            .city-flag { 
+                font-size: 1rem; 
+            }
+            
+            .city-name { 
+                font-size: 0.7rem; 
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            
+            .dog-photo {
+                border-radius: 10px;
+                margin-bottom: 6px;
+            }
+            
+            .dog-name { 
+                font-size: 0.75rem; 
+                gap: 3px;
+            }
+            
+            .dog-name::before {
+                font-size: 0.7rem;
+            }
+            
+            .country-label { 
+                font-size: 0.65rem; 
+                margin-top: 2px;
+            }
+            
+            .footer-note { 
+                font-size: 0.65rem; 
+                margin-top: 8px;
+            }
             
             /* Попап */
-            .ol-popup { padding: 10px 12px; min-width: 150px; }
-            .popup-title { font-size: 0.8rem; }
-            .popup-dog img { width: 30px; height: 30px; }
-            .popup-dog span { font-size: 0.8rem; }
-        }
-
-        /* ОЧЕНЬ МАЛЕНЬКИЕ ЭКРАНЫ (< 480px) */
-        @media (max-width: 480px) {
-            .city-grid {
-                grid-template-columns: 1fr;
+            .ol-popup { 
+                padding: 8px 10px; 
+                min-width: 140px;
+                border-radius: 12px;
             }
             
-            .map-wrapper { height: 300px; }
+            .popup-title { 
+                font-size: 0.7rem; 
+                margin-bottom: 4px;
+            }
             
-            .logo-text { font-size: 1.2rem; }
+            .popup-dog { gap: 6px; }
+            
+            .popup-dog img { 
+                width: 26px; 
+                height: 26px; 
+            }
+            
+            .popup-dog span { 
+                font-size: 0.7rem; 
+            }
+            
+            .ol-popup:after {
+                bottom: -6px;
+                border-left: 6px solid transparent;
+                border-right: 6px solid transparent;
+                border-top: 6px solid #C45C1A;
+            }
+        }
+
+        /* ОЧЕНЬ МАЛЕНЬКИЕ ЭКРАНЫ (< 400px) */
+        @media (max-width: 400px) {
+            .city-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+            
+            .map-wrapper { height: 280px; }
+            
+            .logo-text { font-size: 1.1rem; }
+            
+            .city-card {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 10px;
+                padding: 10px;
+            }
+            
+            .city-card .city-header {
+                display: none;
+            }
+            
+            .city-card .dog-photo {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 0;
+                flex-shrink: 0;
+            }
+            
+            .city-card .dog-name {
+                margin-bottom: 2px;
+            }
+            
+            .city-card .country-label {
+                margin-top: 0;
+            }
         }
 
         /* БОЛЬШИЕ ДЕСКТОПЫ (> 1400px) */
@@ -620,7 +722,7 @@
                 <h2>Все участники</h2>
             </div>
             
-            <!-- TELEGRAM-БЛОК -->
+            <!-- TELEGRAM-БЛОК (скрыт на мобильных) -->
             <div class="telegram-promo-top">
                 <p>📸 Отправьте фото вашей собаки через наш Telegram-бот — после проверки она появится на карте.</p>
             </div>
