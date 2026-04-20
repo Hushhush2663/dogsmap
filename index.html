@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Woof Wings • 37 собак на карте</title>
     
     <!-- Шрифты -->
@@ -25,54 +25,54 @@
             font-family: 'Jost', sans-serif;
             font-weight: 300;
             color: #1A1A1A;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
-            padding: 24px;
+            padding: 16px;
         }
 
         .container {
             max-width: 1600px;
             width: 100%;
+            margin: 0 auto;
             background: #FFFFFF;
-            border-radius: 32px;
+            border-radius: 24px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
             overflow: hidden;
-            padding: 28px 32px 32px 32px;
+            padding: 20px;
         }
 
-        /* ----- ШАПКА ----- */
+        /* ----- ШАПКА (адаптивная) ----- */
         .header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 24px;
-            padding-bottom: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
             border-bottom: 2px solid #C45C1A;
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .logo-img {
-            height: 48px;
+            height: 40px;
             width: auto;
         }
 
         .logo-text {
             font-family: 'Dela Gothic One', cursive;
-            font-size: 2rem;
+            font-size: 1.6rem;
             color: #C45C1A;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
         .header-stats {
             display: flex;
-            gap: 32px;
+            gap: 24px;
         }
 
         .stat-item {
@@ -81,35 +81,35 @@
 
         .stat-number {
             font-family: 'Dela Gothic One', cursive;
-            font-size: 2rem;
+            font-size: 1.6rem;
             color: #C45C1A;
-            line-height: 1;
+            line-height: 1.1;
         }
 
         .stat-label {
             font-family: 'Jost', sans-serif;
             font-weight: 400;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #555555;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
-        /* ----- ЗАГОЛОВОК ----- */
+        /* ----- ЗАГОЛОВОК (адаптивный) ----- */
         h1 {
             font-family: 'Dela Gothic One', cursive;
-            font-size: 2.4rem;
+            font-size: 2rem;
             color: #1A1A1A;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             letter-spacing: -0.5px;
         }
 
         .subtitle {
             font-family: 'Jost', sans-serif;
             font-weight: 300;
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #555555;
-            margin-bottom: 28px;
+            margin-bottom: 20px;
         }
 
         .subtitle .accent {
@@ -117,19 +117,19 @@
             font-weight: 500;
         }
 
-        /* ----- ОСНОВНОЙ БЛОК ----- */
+        /* ----- ОСНОВНОЙ БЛОК (адаптивная сетка) ----- */
         .dashboard {
             display: flex;
-            gap: 24px;
+            gap: 20px;
             flex-wrap: wrap;
         }
 
-        /* ----- КАРТА ----- */
+        /* ----- КАРТА (адаптивная) ----- */
         .map-wrapper {
-            flex: 3;
-            min-width: 400px;
-            height: 650px;
-            border-radius: 24px;
+            flex: 2.5;
+            min-width: 280px;
+            height: 500px;
+            border-radius: 20px;
             overflow: hidden;
             border: 1px solid #E8E0D8;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
@@ -142,37 +142,37 @@
             background: #F5EFE6;
         }
 
-        /* ----- ИНДИКАТОР МАСШТАБА ----- */
+        /* ----- ИНДИКАТОР МАСШТАБА (адаптивный) ----- */
         .scale-indicator {
             position: absolute;
-            bottom: 20px;
-            left: 20px;
+            bottom: 12px;
+            left: 12px;
             z-index: 1000;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(4px);
             border: 1px solid #E8E0D8;
-            border-radius: 40px;
-            padding: 10px 18px;
+            border-radius: 30px;
+            padding: 8px 14px;
             font-family: 'Jost', sans-serif;
             font-weight: 500;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #1A1A1A;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .scale-value {
             color: #C45C1A;
             font-weight: 600;
-            min-width: 55px;
+            min-width: 45px;
             text-align: center;
         }
 
         .scale-bar {
-            width: 60px;
-            height: 4px;
+            width: 50px;
+            height: 3px;
             background: #E8E0D8;
             border-radius: 2px;
             overflow: hidden;
@@ -185,59 +185,51 @@
             transition: width 0.1s ease;
         }
 
-        /* ----- КНОПКА ВЕСЬ МИР ----- */
+        /* ----- КНОПКА ВЕСЬ МИР (адаптивная) ----- */
         .world-reset-btn {
             position: absolute;
-            bottom: 20px;
-            right: 20px;
+            bottom: 12px;
+            right: 12px;
             z-index: 1000;
             background: #FFFFFF;
             border: 2px solid #C45C1A;
-            border-radius: 40px;
-            padding: 12px 20px;
+            border-radius: 30px;
+            padding: 8px 16px;
             font-family: 'Jost', sans-serif;
             font-weight: 500;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #C45C1A;
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(196, 92, 26, 0.15);
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             backdrop-filter: blur(4px);
         }
 
         .world-reset-btn:hover {
             background: #C45C1A;
             color: #FFFFFF;
-            box-shadow: 0 6px 16px rgba(196, 92, 26, 0.3);
-            transform: scale(1.02);
         }
 
-        .world-reset-btn:active {
-            transform: scale(0.98);
-        }
-
-        /* ----- САЙДБАР ----- */
+        /* ----- САЙДБАР (адаптивный) ----- */
         .sidebar {
             flex: 1;
             min-width: 260px;
-            max-width: 300px;
             background: #F5EFE6;
-            border-radius: 24px;
-            padding: 24px 16px;
-            height: 650px;
+            border-radius: 20px;
+            padding: 18px 14px;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            max-height: 500px;
         }
 
         .sidebar-header {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             flex-shrink: 0;
         }
 
@@ -251,78 +243,77 @@
 
         .sidebar-header .paw-icon {
             color: #C45C1A;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
         }
 
-        /* ----- TELEGRAM-БЛОК (БЕЗ КНОПКИ) ----- */
+        /* ----- TELEGRAM-БЛОК (адаптивный) ----- */
         .telegram-promo-top {
             background: #FFFFFF;
-            border-radius: 16px;
-            padding: 14px 16px;
+            border-radius: 14px;
+            padding: 12px 14px;
             border: 1px solid #E8E0D8;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             flex-shrink: 0;
         }
 
         .telegram-promo-top p {
             font-family: 'Jost', sans-serif;
             font-weight: 400;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #1A1A1A;
             line-height: 1.4;
             margin: 0;
         }
 
-        /* ВЕРТИКАЛЬНЫЙ СКРОЛЛ */
+        /* ----- СЕТКА КАРТОЧЕК (адаптивная) ----- */
         .city-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
             overflow-y: auto;
             overflow-x: hidden;
-            padding-right: 6px;
+            padding-right: 4px;
             flex: 1;
         }
 
-        /* ----- КАРТОЧКА ----- */
+        /* ----- КАРТОЧКА (адаптивная) ----- */
         .city-card {
             background: #FFFFFF;
-            border-radius: 20px;
-            padding: 14px;
+            border-radius: 16px;
+            padding: 12px;
             cursor: pointer;
             transition: all 0.25s ease;
             border: 1px solid #E8E0D8;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-            flex-shrink: 0;
         }
 
         .city-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             border-color: #C45C1A;
-            box-shadow: 0 8px 20px rgba(196, 92, 26, 0.08);
+            box-shadow: 0 6px 16px rgba(196, 92, 26, 0.08);
         }
 
         .city-card.active {
             border: 2px solid #C45C1A;
             background: #FFFBF8;
-            box-shadow: 0 4px 16px rgba(196, 92, 26, 0.12);
+            box-shadow: 0 4px 12px rgba(196, 92, 26, 0.12);
         }
 
         .city-header {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 10px;
+            gap: 6px;
+            margin-bottom: 8px;
         }
 
         .city-flag {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             line-height: 1;
         }
 
         .city-name {
             font-family: 'Dela Gothic One', cursive;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: #1A1A1A;
             text-transform: uppercase;
             letter-spacing: -0.3px;
@@ -332,8 +323,8 @@
             width: 100%;
             aspect-ratio: 1 / 1;
             object-fit: cover;
-            border-radius: 14px;
-            margin-bottom: 10px;
+            border-radius: 12px;
+            margin-bottom: 8px;
             border: 1px solid #E8E0D8;
             background: #F5EFE6;
         }
@@ -341,37 +332,38 @@
         .dog-name {
             font-family: 'Jost', sans-serif;
             font-weight: 500;
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: #1A1A1A;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
 
         .dog-name::before {
             content: "🐾";
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #C45C1A;
         }
 
         .country-label {
             font-family: 'Jost', sans-serif;
             font-weight: 300;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: #555555;
-            margin-top: 4px;
+            margin-top: 3px;
         }
 
-        /* ----- ПОПАП ----- */
+        /* ----- ПОПАП (адаптивный) ----- */
         .ol-popup {
             position: absolute;
             background: #FFFFFF;
-            border-radius: 20px;
-            padding: 16px 20px;
+            border-radius: 16px;
+            padding: 12px 16px;
             color: #1A1A1A;
             border: 1px solid #C45C1A;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-            min-width: 220px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+            min-width: 180px;
+            max-width: 250px;
             pointer-events: none;
             font-family: 'Jost', sans-serif;
         }
@@ -379,33 +371,33 @@
         .ol-popup:after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -8px;
             left: 50%;
             transform: translateX(-50%);
             width: 0;
             height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-top: 10px solid #C45C1A;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #C45C1A;
         }
 
         .popup-title {
             font-family: 'Dela Gothic One', cursive;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #C45C1A;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             text-transform: uppercase;
         }
 
         .popup-dog {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .popup-dog img {
-            width: 44px;
-            height: 44px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #C45C1A;
@@ -413,12 +405,13 @@
 
         .popup-dog span {
             font-weight: 500;
+            font-size: 0.9rem;
             color: #1A1A1A;
         }
 
         /* ----- СКРОЛЛБАР ----- */
         .city-grid::-webkit-scrollbar {
-            width: 4px;
+            width: 3px;
         }
         .city-grid::-webkit-scrollbar-track {
             background: #E8E0D8;
@@ -431,11 +424,11 @@
 
         /* ----- ФУТЕР САЙДБАРА ----- */
         .footer-note {
-            margin-top: 14px;
+            margin-top: 12px;
             text-align: left;
             font-family: 'Jost', sans-serif;
             font-weight: 300;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: #555555;
             opacity: 0.8;
             flex-shrink: 0;
@@ -446,23 +439,126 @@
             font-weight: 500;
         }
 
-        /* ----- АДАПТИВ ----- */
-        @media (max-width: 900px) {
+        /* ========== АДАПТИВНЫЕ СТИЛИ ========== */
+
+        /* ПЛАНШЕТ (768px - 1024px) */
+        @media (min-width: 768px) and (max-width: 1024px) {
             body { padding: 12px; }
-            .container { padding: 20px 16px; }
+            .container { padding: 18px; }
+            
             h1 { font-size: 1.8rem; }
-            .header { flex-direction: column; align-items: flex-start; gap: 16px; }
-            .header-stats { gap: 24px; }
+            
             .dashboard { flex-direction: column; }
-            .map-wrapper, .sidebar { 
-                height: 500px; 
-                max-width: none;
+            
+            .map-wrapper { height: 450px; }
+            
+            .sidebar {
+                max-height: 350px;
+                min-width: auto;
+            }
+            
+            /* Горизонтальная прокрутка на планшете */
+            .city-grid {
+                display: flex;
+                flex-direction: row;
+                overflow-x: auto;
+                overflow-y: hidden;
+                gap: 14px;
+                padding-bottom: 8px;
+            }
+            
+            .city-card {
+                min-width: 220px;
+                max-width: 240px;
+                flex-shrink: 0;
+            }
+            
+            .city-grid::-webkit-scrollbar {
+                height: 4px;
+                width: auto;
             }
         }
 
+        /* МОБИЛЬНЫЙ (< 768px) */
+        @media (max-width: 767px) {
+            body { padding: 8px; }
+            .container { padding: 14px; border-radius: 20px; }
+            
+            /* Шапка */
+            .header { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .logo-text { font-size: 1.4rem; }
+            .logo-img { height: 32px; }
+            .header-stats { width: 100%; justify-content: space-around; gap: 12px; }
+            .stat-number { font-size: 1.4rem; }
+            .stat-label { font-size: 0.7rem; }
+            
+            /* Заголовок */
+            h1 { font-size: 1.5rem; }
+            .subtitle { font-size: 0.9rem; margin-bottom: 16px; }
+            
+            /* Карта */
+            .dashboard { flex-direction: column; gap: 16px; }
+            .map-wrapper { height: 350px; }
+            
+            /* Индикатор масштаба и кнопка */
+            .scale-indicator { padding: 6px 10px; font-size: 0.8rem; }
+            .scale-value { min-width: 40px; }
+            .scale-bar { width: 40px; }
+            .world-reset-btn { padding: 6px 12px; font-size: 0.8rem; }
+            
+            /* Сайдбар */
+            .sidebar {
+                max-height: 400px;
+                min-width: auto;
+                padding: 14px 10px;
+            }
+            
+            .sidebar-header h2 { font-size: 1.1rem; }
+            
+            .telegram-promo-top { padding: 10px 12px; }
+            .telegram-promo-top p { font-size: 0.8rem; }
+            
+            /* Сетка карточек — 2 колонки */
+            .city-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .city-card { padding: 10px; }
+            .city-flag { font-size: 1.1rem; }
+            .city-name { font-size: 0.8rem; }
+            .dog-name { font-size: 0.85rem; }
+            .country-label { font-size: 0.7rem; }
+            
+            .footer-note { font-size: 0.7rem; }
+            
+            /* Попап */
+            .ol-popup { padding: 10px 12px; min-width: 150px; }
+            .popup-title { font-size: 0.8rem; }
+            .popup-dog img { width: 30px; height: 30px; }
+            .popup-dog span { font-size: 0.8rem; }
+        }
+
+        /* ОЧЕНЬ МАЛЕНЬКИЕ ЭКРАНЫ (< 480px) */
         @media (max-width: 480px) {
-            .stat-number { font-size: 1.5rem; }
-            .stat-label { font-size: 0.75rem; }
+            .city-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .map-wrapper { height: 300px; }
+            
+            .logo-text { font-size: 1.2rem; }
+        }
+
+        /* БОЛЬШИЕ ДЕСКТОПЫ (> 1400px) */
+        @media (min-width: 1400px) {
+            .container { padding: 28px 32px; }
+            .map-wrapper { height: 600px; }
+            .sidebar { max-height: 600px; }
+            h1 { font-size: 2.5rem; }
+            .logo-text { font-size: 2rem; }
+            .logo-img { height: 48px; }
         }
     </style>
 </head>
@@ -524,15 +620,15 @@
                 <h2>Все участники</h2>
             </div>
             
-            <!-- TELEGRAM-БЛОК (БЕЗ КНОПКИ) -->
+            <!-- TELEGRAM-БЛОК -->
             <div class="telegram-promo-top">
                 <p>📸 Отправьте фото вашей собаки через наш Telegram-бот — после проверки она появится на карте.</p>
             </div>
             
-            <!-- ПРОКРУТКА С КАРТОЧКАМИ -->
+            <!-- СЕТКА КАРТОЧЕК -->
             <div class="city-grid" id="cityList"></div>
             
-            <!-- ФУТЕР САЙДБАРА -->
+            <!-- ФУТЕР -->
             <div class="footer-note">
                 <span class="accent">●</span> кликни на маркер или карточку
             </div>
@@ -587,7 +683,7 @@
             { id: 37, name: 'Levi', city: 'Нью-Йорк', country: 'США', flag: '🇺🇸', coords: [-74.0060, 40.7128], zoom: 11, image: 'https://i.ibb.co/BHtHYg4j/2.jpg' }
         ];
 
-        // ---------- РАСШИРЕННОЕ СМЕЩЕНИЕ МАРКЕРОВ ----------
+        // ---------- СМЕЩЕНИЕ МАРКЕРОВ ----------
         const coordMap = new Map();
         dogs.forEach(dog => {
             const key = dog.coords.join(',');
@@ -603,202 +699,4 @@
             const total = group.length;
             
             let offsetLon = 0, offsetLat = 0;
-            if (total > 1) {
-                const angle = (index / total) * 2 * Math.PI;
-                const radius = total >= 8 ? 0.12 : (total >= 3 ? 0.08 : 0.05);
-                offsetLon = Math.cos(angle) * radius;
-                offsetLat = Math.sin(angle) * radius;
-            }
-            
-            offsetCoords.push({
-                ...dog,
-                displayCoords: [dog.coords[0] + offsetLon, dog.coords[1] + offsetLat]
-            });
-        });
-
-        // ---------- КАРТА ----------
-        const map = new ol.Map({
-            target: 'map',
-            layers: [new ol.layer.Tile({ source: new ol.source.OSM() })],
-            view: new ol.View({
-                center: ol.proj.fromLonLat([35.0, 45.0]),
-                zoom: 2.1,
-                minZoom: 2,
-                maxZoom: 18
-            }),
-            controls: ol.control.defaults.defaults({ attributionOptions: { collapsible: true } })
-        });
-
-        // ---------- ИНДИКАТОР МАСШТАБА ----------
-        const scaleValue = document.getElementById('scaleValue');
-        const scaleFill = document.getElementById('scaleFill');
-        
-        function updateScaleIndicator() {
-            const zoom = map.getView().getZoom();
-            const minZoom = 2;
-            const maxZoom = 18;
-            const percent = Math.round(((zoom - minZoom) / (maxZoom - minZoom)) * 89 + 11);
-            scaleValue.textContent = percent + '%';
-            scaleFill.style.width = percent + '%';
-        }
-        
-        map.getView().on('change:resolution', updateScaleIndicator);
-        map.getView().on('change:zoom', updateScaleIndicator);
-        updateScaleIndicator();
-
-        // ---------- КНОПКА ВЕСЬ МИР (11%) ----------
-        document.getElementById('resetWorldBtn').addEventListener('click', function() {
-            map.getView().animate({
-                center: ol.proj.fromLonLat([35.0, 45.0]),
-                zoom: 2.1,
-                duration: 800
-            });
-            hidePopup();
-        });
-
-        // ---------- POPUP ----------
-        const popupElement = document.createElement('div');
-        popupElement.className = 'ol-popup';
-        const popup = new ol.Overlay({ element: popupElement, positioning: 'bottom-center', offset: [0, -15], stopEvent: false });
-        map.addOverlay(popup);
-
-        function showPopup(coord, dog) {
-            popupElement.innerHTML = `
-                <div class="popup-title">${dog.flag} ${dog.city}, ${dog.country}</div>
-                <div class="popup-dog">
-                    <img src="${dog.image}" alt="${dog.name}" onerror="this.src='https://i.ibb.co/B5vWsp2g/image.jpg'">
-                    <span>${dog.name}</span>
-                </div>
-            `;
-            popup.setPosition(coord);
-        }
-
-        function hidePopup() { popup.setPosition(undefined); }
-
-        // ---------- СТИЛЬ МАРКЕРОВ ----------
-        function createDogIconStyle(dog) {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            const size = 56;
-            canvas.width = size;
-            canvas.height = size;
-            
-            ctx.beginPath();
-            ctx.arc(size/2, size/2, size/2 - 3, 0, 2 * Math.PI);
-            ctx.fillStyle = '#FFFFFF';
-            ctx.fill();
-            ctx.strokeStyle = '#C45C1A';
-            ctx.lineWidth = 4;
-            ctx.stroke();
-            
-            const img = new Image();
-            img.crossOrigin = 'Anonymous';
-            img.src = dog.image;
-            
-            const style = new ol.style.Style({
-                image: new ol.style.Icon({ img: canvas, imgSize: [size, size], anchor: [0.5, 1], anchorXUnits: 'fraction', anchorYUnits: 'fraction' })
-            });
-            
-            img.onload = () => {
-                ctx.save();
-                ctx.beginPath();
-                ctx.arc(size/2, size/2, size/2 - 5, 0, 2 * Math.PI);
-                ctx.clip();
-                ctx.drawImage(img, 0, 0, size, size);
-                ctx.restore();
-                ctx.beginPath();
-                ctx.arc(size/2, size/2, size/2 - 3, 0, 2 * Math.PI);
-                ctx.strokeStyle = '#C45C1A';
-                ctx.lineWidth = 4;
-                ctx.stroke();
-                style.getImage().setImg(canvas);
-                vectorLayer.changed();
-            };
-            
-            img.onerror = () => { img.src = 'https://i.ibb.co/B5vWsp2g/image.jpg'; };
-            return style;
-        }
-
-        // ---------- ВЕКТОРНЫЙ СЛОЙ ----------
-        const features = [];
-        offsetCoords.forEach(dog => {
-            const feature = new ol.Feature({
-                geometry: new ol.geom.Point(ol.proj.fromLonLat(dog.displayCoords)),
-                dogData: dog
-            });
-            feature.setStyle(createDogIconStyle(dog));
-            features.push(feature);
-        });
-
-        const vectorSource = new ol.source.Vector({ features });
-        const vectorLayer = new ol.layer.Vector({ source: vectorSource, zIndex: 10 });
-        map.addLayer(vectorLayer);
-
-        // ---------- КАРТОЧКИ ----------
-        const cityListDiv = document.getElementById('cityList');
-        const cardElements = new Map();
-        
-        dogs.forEach(dog => {
-            const card = document.createElement('div');
-            card.className = 'city-card';
-            card.setAttribute('data-dog-id', dog.id);
-            card.innerHTML = `
-                <div class="city-header">
-                    <span class="city-flag">${dog.flag}</span>
-                    <span class="city-name">${dog.city}</span>
-                </div>
-                <img class="dog-photo" src="${dog.image}" alt="${dog.name}" loading="lazy" onerror="this.src='https://i.ibb.co/B5vWsp2g/image.jpg'">
-                <div class="dog-name">${dog.name}</div>
-                <div class="country-label">${dog.country}</div>
-            `;
-            card.addEventListener('click', () => {
-                const dogWithOffset = offsetCoords.find(d => d.id === dog.id);
-                const coord = ol.proj.fromLonLat(dogWithOffset.displayCoords);
-                map.getView().animate({ center: coord, zoom: dog.zoom, duration: 700 });
-                showPopup(coord, dog);
-                highlightCard(dog.id);
-            });
-            cityListDiv.appendChild(card);
-            cardElements.set(dog.id, card);
-        });
-
-        // ---------- КЛИКИ ПО МАРКЕРАМ (с прокруткой к карточке) ----------
-        map.on('click', function(evt) {
-            const feature = map.forEachFeatureAtPixel(evt.pixel, f => f);
-            if (feature) {
-                const dog = feature.get('dogData');
-                const coord = feature.getGeometry().getCoordinates();
-                showPopup(coord, dog);
-                highlightCard(dog.id);
-                map.getView().animate({ center: coord, zoom: dog.zoom, duration: 700 });
-                
-                const card = cardElements.get(dog.id);
-                if (card) {
-                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            } else { 
-                hidePopup(); 
-            }
-        });
-
-        map.on('pointermove', function(evt) {
-            map.getTargetElement().style.cursor = map.hasFeatureAtPixel(evt.pixel) ? 'pointer' : '';
-        });
-
-        function highlightCard(dogId) {
-            document.querySelectorAll('.city-card').forEach(c => c.classList.remove('active'));
-            const activeCard = document.querySelector(`[data-dog-id="${dogId}"]`);
-            if (activeCard) { 
-                activeCard.classList.add('active'); 
-            }
-        }
-
-        setTimeout(() => highlightCard(1), 200);
-        map.on('movestart', hidePopup);
-        
-        console.log('Карта загружена! Всего собак:', dogs.length);
-    })();
-</script>
-
-</body>
-</html>
+            if (total > 
